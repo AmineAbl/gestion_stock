@@ -12,5 +12,6 @@
     <mapping class="entities.User"/>
     <mapping class="entities.Categorie"/>
     <mapping class="entities.Produit"/>
+    <mapping class="entities.MouvementStock"/>
   </session-factory>
 </hibernate-configuration>

@@ -17,109 +17,12 @@ import util.HibernateUtil;
  *
  * @author AMINE
  */
-public class ProduitDao implements IDao<Produit> {
+public class ProduitDao extends AbstractDao<Produit> {
 
-   @Override
-    public boolean create(Produit o) {
-        Session session = null;
-        Transaction tx = null;
-        boolean etat = false;
-        try{
-            session = HibernateUtil.getSessionFactory().openSession();
-            tx = session.beginTransaction();
-            session.save(o);
-            tx.commit();
-            etat = true;
-        }catch(HibernateException e){
-            if(tx != null)
-                tx.rollback();
-        }finally{
-            if(session != null)
-                session.close();
-        }
-        return etat;
+    public ProduitDao() {
+        super(Produit.class);
     }
 
-    @Override
-    public boolean update(Produit o) {
-        Session session = null;
-        Transaction tx = null;
-        boolean etat = false;
-        try{
-            session = HibernateUtil.getSessionFactory().openSession();
-            tx = session.beginTransaction();
-            session.update(o);
-            tx.commit();
-            etat = true;
-        }catch(HibernateException e){
-            if(tx != null)
-                tx.rollback();
-        }finally{
-            if(session != null)
-                session.close();
-        }
-        return etat;
-    }
-
-    @Override
-    public boolean delete(Produit o) {
-        Session session = null;
-        Transaction tx = null;
-        boolean etat = false;
-        try{
-            session = HibernateUtil.getSessionFactory().openSession();
-            tx = session.beginTransaction();
-            session.delete(o);
-            tx.commit();
-            etat = true;
-        }catch(HibernateException e){
-            if(tx != null)
-                tx.rollback();
-        }finally{
-            if(session != null)
-                session.close();
-        }
-        return etat;
-    }
-
-    @Override
-    public List<Produit> findAll() {
-        Session session = null;
-        Transaction tx = null;
-        List<Produit> produits = null;
-        try{
-            session = HibernateUtil.getSessionFactory().openSession();
-            tx = session.beginTransaction();
-            produits = session.createQuery("from Produit").list();
-            tx.commit();
-        }catch(HibernateException e){
-            if(tx != null)
-                tx.rollback();
-        }finally{
-            if(session != null)
-                session.close();
-        }
-        return produits;
-    }
-
-    @Override
-    public Produit findById(int id) {
-        Session session = null;
-        Transaction tx = null;
-        Produit user =null;
-        try{
-            session = HibernateUtil.getSessionFactory().openSession();
-            tx = session.beginTransaction();
-            user = (Produit) session.get(Produit.class, id);
-            tx.commit();
-        }catch(HibernateException e){
-            if(tx != null)
-                tx.rollback();
-        }finally{
-            if(session != null)
-                session.close();
-        }
-        return user;
-    }
+   
     
 }
