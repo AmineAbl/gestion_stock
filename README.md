@@ -14,15 +14,18 @@ Pour éviter ces problèmes, il est nécessaire d’automatiser et de centralise
 - Visualiser l’évolution du stock à l’aide de graphiques générés avec Chart.js.  
 - Offrir une interface simple d’utilisation pour un suivi fluide et précis.
 
-## 4. Diagramme de classe :
+## 4. Technologies utilisées :
+Ce projet utilise un ensemble de technologies modernes pour assurer une gestion efficace et interactive du stock. Le backend est développé en Java avec une architecture orientée objet, utilisant des classes telles que Produit, Categorie, MouvementStock et User pour structurer les données. Le frontend repose sur HTML, CSS et JavaScript, avec l'intégration de Chart.js pour afficher des statistiques visuelles de l'évolution du stock. L'utilisation d'AJAX permet une mise à jour instantanée des quantités disponibles sans rechargement de page, offrant ainsi une expérience utilisateur fluide et réactive.
+
+## 5. Diagramme de classe :
 
 <img width="277" alt="image" src="https://github.com/user-attachments/assets/5786e307-bc7f-40ff-84e8-96ced3de2315" />
 
-## 5. Modèle conceptuel de la base généré :
+## 6. Modèle conceptuel de la base généré :
 
 <img width="551" alt="image" src="https://github.com/user-attachments/assets/eec75fbf-bfbe-475a-ad87-d174b1d2d173" />
 
-## 6. Execution des tests dans la console :
+## 7. Execution des tests dans la console :
 
 <img width="251" alt="image" src="https://github.com/user-attachments/assets/3a65984a-0aa2-4533-9504-eeab800c5f95" />
 <img width="241" alt="image" src="https://github.com/user-attachments/assets/7d424b46-6972-4d06-94b0-31bca7fc6283" />
