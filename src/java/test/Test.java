@@ -32,16 +32,22 @@ public class Test {
         CategorieDao cd = new CategorieDao();
         cd.create(new Categorie("eletronique"));
         cd.create(new Categorie("mecanique"));
+        Categorie c = cd.findById(1);
+        c.setNom("electrique");
+        cd.update(c);
         
         ProduitDao pd = new ProduitDao();
         pd.create(new Produit("alternateur", 4, 1000 ,cd.findById(2) ));
         
+        //Afficher les produits de chaque catégorie
         for(Produit p :cd.findById(2).getProduits()){
             System.out.println(p.getNom());
         }
        MouvementStockDao msd = new MouvementStockDao();
        msd.create(new MouvementStock("mecanique", 20, new Date(), pd.findById(1)));
                 */
+        
+        
         }
 }
         
