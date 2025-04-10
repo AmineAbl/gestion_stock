@@ -42,8 +42,49 @@ Pour éviter ces problèmes, il est nécessaire d’automatiser et de centralise
 <img width="551" alt="image" src="https://github.com/user-attachments/assets/eec75fbf-bfbe-475a-ad87-d174b1d2d173" />
 
 ## 🧪 7. Execution des tests dans la console :
+### Création des tables dans la base de données :
+<img width="293" alt="image" src="https://github.com/user-attachments/assets/6ca2a195-98d6-487e-95a3-d6519c93af4b" />
 
-<img width="251" alt="image" src="https://github.com/user-attachments/assets/3a65984a-0aa2-4533-9504-eeab800c5f95" />
-<img width="241" alt="image" src="https://github.com/user-attachments/assets/7d424b46-6972-4d06-94b0-31bca7fc6283" />
-<img width="281" alt="image" src="https://github.com/user-attachments/assets/230f80da-98e5-4505-b3a0-93eaac5557b6" />
-<img width="242" alt="image" src="https://github.com/user-attachments/assets/92e96370-a4b9-4c42-a9ce-7ae8a412907f" />
+### Insertion des données dans les tables :
+<img width="310" alt="image" src="https://github.com/user-attachments/assets/a2471ebd-7cba-429c-b96d-1ad132b07c80" />
+
+<img width="264" alt="image" src="https://github.com/user-attachments/assets/932969e5-6ca9-4c17-b169-c2cb33d67ca2" />
+
+<img width="200" alt="image" src="https://github.com/user-attachments/assets/5ca22152-088d-42c5-b078-ec100c068e66" />
+
+<img width="264" alt="image" src="https://github.com/user-attachments/assets/b2b7a2ee-abab-44fe-a4fa-60fb21790aad" />
+
+<img width="193" alt="image" src="https://github.com/user-attachments/assets/0200112c-5334-4776-8025-8de59a8dfb81" />
+
+<img width="278" alt="image" src="https://github.com/user-attachments/assets/eb515e86-f2cd-485e-a805-f2fa68c1e7a8" />
+
+<img width="275" alt="image" src="https://github.com/user-attachments/assets/3f6ebe15-b9e5-4303-af3c-3af998cecc1a" />
+
+<img width="270" alt="image" src="https://github.com/user-attachments/assets/57891d16-0cce-44ae-9365-0cb164e5a0ff" />
+
+<img width="239" alt="image" src="https://github.com/user-attachments/assets/fae01c49-08e7-4b87-9714-90a67d46d18b" />
+
+
+### Modification :
+<img width="278" alt="image" src="https://github.com/user-attachments/assets/4bc82564-f8fa-4d48-a838-33738168503f" />
+
+<img width="293" alt="image" src="https://github.com/user-attachments/assets/a2e9640d-6f3a-4592-9ab6-a2d4ecd459c6" />
+
+<img width="260" alt="image" src="https://github.com/user-attachments/assets/6c8658aa-b70c-459a-bee6-3041e46b4f1a" />
+
+<img width="309" alt="image" src="https://github.com/user-attachments/assets/c56a2196-8468-4d2d-a2cc-2fbdcaae95a8" />
+
+<img width="284" alt="image" src="https://github.com/user-attachments/assets/8936397e-d0b7-4008-a0fa-fde9f687ce4e" />
+
+
+### Suppression :
+<img width="280" alt="image" src="https://github.com/user-attachments/assets/f4090e5e-762d-4bf4-b506-70eff8977ab0" />
+
+<img width="326" alt="image" src="https://github.com/user-attachments/assets/c14c0a7b-6fa0-454e-aeb8-4ed8469bcfb7" />
+
+<img width="242" alt="image" src="https://github.com/user-attachments/assets/3b3b4033-e9e6-4999-bdb9-297f3d39096a" />
+
+
+
+
+
