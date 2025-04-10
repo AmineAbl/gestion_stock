@@ -18,34 +18,70 @@ import java.util.Date;
 
 public class Test {
     public static void main(String[] args) {
-        //HibernateUtil.getSessionFactory();
-       /* UserDao ud = new UserDao();
-        ud.create(new User("Abl", "Amine", "amine@gmail.com", "amine123"));
-        
-        ud.create(new User("Abl", "Anas", "anas@gmail.com", "anas123"));
-        ud.delete(ud.findById(1));
-        
-        for(User u : ud.findAll()){
-            System.out.println(u.getPrenom());
-        }
-        
+       // HibernateUtil.getSessionFactory();
+        //Création
+        UserDao ud = new UserDao();
         CategorieDao cd = new CategorieDao();
+        ProduitDao pd = new ProduitDao();
+        MouvementStockDao msd = new MouvementStockDao();
+        /*
+        ud.create(new User("Abl", "Amine", "amine@gmail.com", "amine123"));
+        ud.create(new User("Abl", "Anas", "anas@gmail.com", "anas123"));
+        
         cd.create(new Categorie("eletronique"));
         cd.create(new Categorie("mecanique"));
+        
+        pd.create(new Produit("alternateur", 4, 1000 ,cd.findById(2) ));
+        pd.create(new Produit("cable", 15, 75, cd.findById(1)));
+        
+        msd.create(new MouvementStock("mecanique", 20, new Date(), pd.findById(1)));
+        msd.create(new MouvementStock("sss", 10, new Date(), pd.findById(2)));
+        */
+        
+        //Modification
+        /*       
+        User u = ud.findById(2);
+        u.setPrenom("Anas");
+        u.setNom("Aboulaiche");
+        ud.update(u);
+        
         Categorie c = cd.findById(1);
         c.setNom("electrique");
         cd.update(c);
         
-        ProduitDao pd = new ProduitDao();
-        pd.create(new Produit("alternateur", 4, 1000 ,cd.findById(2) ));
+        Produit p = pd.findById(1);
+        p.setQuantite(10);
+        pd.update(p);
+        
+        MouvementStock m = msd.findById(2);
+        m.setType("tirage");
+        msd.update(m);
+        */
+        
+        //Suppression
+        /*       
+        ud.delete(ud.findById(1));
+        
+        cd.delete(cd.findById(1));
+        
+        pd.delete(pd.findById(2));
+        
+        msd.delete(msd.findById(2));
+        
+        */
+        
+        for(User us : ud.findAll()){
+            System.out.println(us.getPrenom());
+        }
+        
         
         //Afficher les produits de chaque catégorie
-        for(Produit p :cd.findById(2).getProduits()){
-            System.out.println(p.getNom());
+        for(Produit ps :cd.findById(2).getProduits()){
+            System.out.println(ps.getNom());
         }
-       MouvementStockDao msd = new MouvementStockDao();
-       msd.create(new MouvementStock("mecanique", 20, new Date(), pd.findById(1)));
-                */
+       
+       
+                
         
         
         }
