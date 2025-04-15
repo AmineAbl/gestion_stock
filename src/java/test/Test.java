@@ -24,6 +24,7 @@ public class Test {
         CategorieDao cd = new CategorieDao();
         ProduitDao pd = new ProduitDao();
         MouvementStockDao msd = new MouvementStockDao();
+        
         /*
         ud.create(new User("Abl", "Amine", "amine@gmail.com", "amine123"));
         ud.create(new User("Abl", "Anas", "anas@gmail.com", "anas123"));
@@ -69,7 +70,7 @@ public class Test {
         msd.delete(msd.findById(2));
         
         */
-        
+        /*
         for(User us : ud.findAll()){
             System.out.println(us.getPrenom());
         }
@@ -80,9 +81,16 @@ public class Test {
             System.out.println(ps.getNom());
         }
        
-       
+       */
                 
+        for(Produit p : pd.findByCategorie(cd.findById(1))){
+            System.out.println(p.getNom());
+        }
         
+        
+        for(Produit p : pd.findByQuantite(10, 20)){
+            System.out.println(p.getNom());
+        }
         
         }
 }

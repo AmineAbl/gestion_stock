@@ -12,10 +12,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
 
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "findByQuantite", query = "from Produit where quantite between :q1 and :q2"),
+    @NamedQuery(name  ="findByCategorie", query = "from Produit where categorie.id =:id")
+})
+
+//@NamedNativeQuery(name="" , query ="" ,resultClass = Produit.class)
 @Table(name = "produits")
 public class Produit {
     @Id
