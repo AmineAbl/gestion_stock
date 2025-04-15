@@ -35,7 +35,8 @@ Pour éviter ces problèmes, il est nécessaire d’automatiser et de centralise
 
 ## 🧩 5. Diagramme de classe :
 
-<img width="277" alt="image" src="https://github.com/user-attachments/assets/5786e307-bc7f-40ff-84e8-96ced3de2315" />
+<img width="380" alt="image" src="https://github.com/user-attachments/assets/4a245f99-2d15-413f-84a2-6e777fbc0d66" />
+
 
 ## 🗺️ 6. Modèle conceptuel de la base généré :
 
