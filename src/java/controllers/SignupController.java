@@ -8,31 +8,26 @@ package controllers;
 import entities.User;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import services.UserService;
 
 /**
  *
  * @author AMINE
  */
-@WebServlet(name = "LoginController", urlPatterns = {"/LoginController"})
-public class LoginController extends HttpServlet {
-
-    private UserService us;
-
-    @Override
-    public void init() throws ServletException {
-        super.init(); //To change body of generated methods, choose Tools | Templates.
-        us = new UserService();
+@WebServlet(name = "SignupController", urlPatterns = {"/SignupController"})
+public class SignupController extends HttpServlet {
+        private UserService us;
+        
+        @Override
+        public void init() throws ServletException {
+            super.init(); //To change body of generated methods, choose Tools | Templates.
+            us = new UserService();
     }
-
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -44,37 +39,39 @@ public class LoginController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        String email = request.getParameter("email");
-        String passworde = request.getParameter("mdp");
-
-        List<User> utilisateurs = us.findByEmail(email);
-
-        if (!utilisateurs.isEmpty()) {
-            System.out.println(email);
-            System.out.println(passworde);
-            User u = utilisateurs.get(0);
-            if (u.getMotDePasse().equals(passworde)) {
-                
-                HttpSession session = request.getSession();
-                session.setAttribute("id", u.getId());
-                session.setAttribute("nom", u.getNom());
-                session.setAttribute("prenom", u.getPrenom());
-                session.setAttribute("email", u.getEmail());
-                
-                response.sendRedirect("users/produits.jsp");
-               // RequestDispatcher dispatcher = request.getRequestDispatcher("users/profile.jsp");
-               // dispatcher.forward(request, response);
-                return;
-            }
-            
-        }
-        response.sendRedirect("users/login.jsp");
         
-
+        String op = request.getParameter("op");
+        if (op == null) {
+            String id = request.getParameter("id");
+            if (id == null || id.isEmpty()) {
+                String nom = request.getParameter("nom");
+                String prenom = request.getParameter("prenom");
+                String email = request.getParameter("email");
+                String mdp = request.getParameter("mdp");
+                us.create(new User(nom, prenom, email, mdp));
+                response.sendRedirect("users/users.jsp");
+            }else{
+                String nom = request.getParameter("nom");
+                String prenom = request.getParameter("prenom");
+                String email = request.getParameter("email");
+                String mdp = request.getParameter("mdp");
+                User u = new User(nom, prenom, email, mdp);
+                u.setId(Integer.parseInt(id));
+                us.update(u);
+                response.sendRedirect("users/users.jsp");
+            }
+        } else if (op.equals("delete")) {
+            String id = request.getParameter("id");
+            us.delete(us.findById(Integer.parseInt(id)));
+            response.sendRedirect("users/users.jsp");
+        } else if (op.equals("update")) {
+            String id = request.getParameter("id");
+            User u = us.findById(Integer.parseInt(id));
+            response.sendRedirect("users/signup.jsp?id=" + u.getId() + "&nom=" + u.getNom() + "&prenom=" + u.getPrenom() + "&email=" + u.getEmail() +"&mdp=" + u.getMotDePasse());
+        }
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

@@ -4,6 +4,8 @@
     Author     : AMINE
 --%>
 
+<%@page import="entities.Produit"%>
+<%@page import="services.ProduitService"%>
 <%@page import="entities.User"%>
 <%@page import="services.UserService"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -12,7 +14,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Liste des Étudiants</title>
+        <title>Liste des Produits</title>
         <style>
             * {
                 margin: 0;
@@ -240,7 +242,7 @@
                     <li><a href="#"><i class="fas fa-book"></i> Mouvement de stock</a></li>
                     <li><a href="#"><i class="fas fa-chart-bar"></i> Statistiques</a></li>
                     <li><a href="profile.jsp"><i class="fas fa-cog"></i> Profile</a></li>
-                    <li><a href="login.jsp"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+                    <li><a href="../LogoutController"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
                 </ul>
             </div>
         </div>
@@ -248,34 +250,36 @@
         <!-- Main content -->
         <div class="main-content">
             <fieldset>
-                <legend>Liste des étudiants</legend>
+                <legend>Liste des produits</legend>
                 
                 <table>
                     <thead>
                         <tr>
                             <th>ID</th>
                             <th>Nom</th>
-                            <th>Prénom</th>
-                            <th>Email</th>
+                            <th>Prix</th>
+                            <th>Quantité</th>
+                            <th>Catégorie</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     
                     <tbody>
                         <%
-                            UserService us = new UserService();
-                            java.util.List<User> users = us.findAll();
-                            if(users != null && !users.isEmpty()) {
-                                for(User u : users){
+                           ProduitService ps = new ProduitService();
+                            java.util.List<Produit> produits = ps.findAll();
+                            if(produits != null && !produits.isEmpty()) {
+                                for(Produit p : produits){
                         %>
                         <tr>
-                            <td><%= u.getId() %></td>
-                            <td><%= u.getNom() %></td>
-                            <td><%= u.getPrenom() %></td>
-                            <td><%= u.getEmail() %></td>
+                            <td><%= p.getId() %></td>
+                            <td><%= p.getNom() %></td>
+                            <td><%= p.getPrix() %></td>
+                            <td><%= p.getQuantite() %></td>
+                            <td><%= (p.getCategorie() != null) ? p.getCategorie().getNom() : "Sans catégorie" %></td>
                             <td class="actions-container">
-                                <a href="../SignupController?id=<%= u.getId()%>&op=delete">Supprimer</a>
-                                <a href="../SignupController?id=<%= u.getId()%>&op=update">Modifier</a>
+                                <a href="../ProduitController?id=<%= p.getId()%>&op=delete">Supprimer</a>
+                                <a href="../ProduitController?id=<%= p.getId()%>&op=update">Modifier</a>
                             </td>
                         </tr>
                         <% 
@@ -283,13 +287,13 @@
                             } else {
                         %>
                         <tr>
-                            <td colspan="5" class="empty-message">Aucun étudiant trouvé</td>
+                            <td colspan="5" class="empty-message">Aucun produit trouvé</td>
                         </tr>
                         <% } %>
                     </tbody>
                 </table>
                 
-                <a href="signup.jsp" class="add-button">Ajouter un étudiant</a>
+                <a href="addProduit.jsp" class="add-button">Ajouter un produit</a>
             </fieldset>
         </div>
     </body>

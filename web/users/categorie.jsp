@@ -4,6 +4,8 @@
     Author     : AMINE
 --%>
 
+<%@page import="entities.Categorie"%>
+<%@page import="services.CategorieService"%>
 <%@page import="entities.User"%>
 <%@page import="services.UserService"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -12,7 +14,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Liste des Étudiants</title>
+        <title>Liste des Categories</title>
         <style>
             * {
                 margin: 0;
@@ -240,7 +242,7 @@
                     <li><a href="#"><i class="fas fa-book"></i> Mouvement de stock</a></li>
                     <li><a href="#"><i class="fas fa-chart-bar"></i> Statistiques</a></li>
                     <li><a href="profile.jsp"><i class="fas fa-cog"></i> Profile</a></li>
-                    <li><a href="login.jsp"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+                    <li><a href="../LogoutController"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
                 </ul>
             </div>
         </div>
@@ -248,34 +250,31 @@
         <!-- Main content -->
         <div class="main-content">
             <fieldset>
-                <legend>Liste des étudiants</legend>
+                <legend>Liste des catégories</legend>
                 
                 <table>
                     <thead>
                         <tr>
                             <th>ID</th>
                             <th>Nom</th>
-                            <th>Prénom</th>
-                            <th>Email</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     
                     <tbody>
                         <%
-                            UserService us = new UserService();
-                            java.util.List<User> users = us.findAll();
-                            if(users != null && !users.isEmpty()) {
-                                for(User u : users){
+                            CategorieService cd = new CategorieService();
+                            java.util.List<Categorie> categories = cd.findAll();
+                            if(categories != null && !categories.isEmpty()) {
+                                for(Categorie c : categories){
                         %>
                         <tr>
-                            <td><%= u.getId() %></td>
-                            <td><%= u.getNom() %></td>
-                            <td><%= u.getPrenom() %></td>
-                            <td><%= u.getEmail() %></td>
+                            <td><%= c.getId() %></td>
+                            <td><%= c.getNom() %></td>
+                            
                             <td class="actions-container">
-                                <a href="../SignupController?id=<%= u.getId()%>&op=delete">Supprimer</a>
-                                <a href="../SignupController?id=<%= u.getId()%>&op=update">Modifier</a>
+                                <a href="../CategorieController?id=<%= c.getId()%>&op=delete">Supprimer</a>
+                                <a href="../CategorieController?id=<%= c.getId()%>&op=update">Modifier</a>
                             </td>
                         </tr>
                         <% 
@@ -283,13 +282,13 @@
                             } else {
                         %>
                         <tr>
-                            <td colspan="5" class="empty-message">Aucun étudiant trouvé</td>
+                            <td colspan="5" class="empty-message">Aucune catégorie trouvée</td>
                         </tr>
                         <% } %>
                     </tbody>
                 </table>
                 
-                <a href="signup.jsp" class="add-button">Ajouter un étudiant</a>
+                <a href="addCategorie.jsp" class="add-button">Ajouter une catégorie</a>
             </fieldset>
         </div>
     </body>

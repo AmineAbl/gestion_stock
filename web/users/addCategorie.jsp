@@ -134,27 +134,12 @@
     <body>
         <fieldset>
             <legend>Formulaire d'utilisateur</legend>
-            <form method="POST" action="../UserController">
+            <form method="POST" action="../CategorieController">
                 <input type="hidden" name="id" value="<%= request.getParameter("id") != null ? request.getParameter("id") : "" %>" />
                 <table>
                     <tr class="form-group">
                         <td><label for="nom">Nom :</label></td>
                         <td><input type="text" id="nom" name="nom" value="<%= request.getParameter("nom") != null ? request.getParameter("nom") : "" %>" placeholder="Entrez votre nom" /></td>
-                    </tr>
-                    
-                    <tr class="form-group">
-                        <td><label for="prenom">Prénom :</label></td>
-                        <td><input type="text" id="prenom" name="prenom" value="<%= request.getParameter("prenom") != null ? request.getParameter("prenom") : "" %>" placeholder="Entrez votre prénom" /></td>  
-                    </tr>
-                    
-                    <tr class="form-group">
-                        <td><label for="email">Email :</label></td>
-                        <td><input type="text" id="email" name="email" value="<%= request.getParameter("email") != null ? request.getParameter("email") : "" %>" placeholder="Entrez votre email" /></td>  
-                    </tr>
-                    
-                    <tr class="form-group">
-                        <td><label for="mdp">Mot de passe :</label></td>
-                        <td><input type="password" id="mdp" name="mdp" value="<%= request.getParameter("mdp") != null ? request.getParameter("mdp") : "" %>" placeholder="Entrez votre mot de passe" /></td>  
                     </tr>
                     
                     <tr>

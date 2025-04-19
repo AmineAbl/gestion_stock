@@ -240,7 +240,7 @@
                     <li><a href="#"><i class="fas fa-book"></i> Mouvement de stock</a></li>
                     <li><a href="#"><i class="fas fa-chart-bar"></i> Statistiques</a></li>
                     <li><a href="profile.jsp"><i class="fas fa-cog"></i> Profile</a></li>
-                    <li><a href="login.jsp"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+                    <li><a href="../LogoutController"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
                 </ul>
             </div>
         </div>
@@ -253,43 +253,31 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Nom</th>
                             <th>Prénom</th>
                             <th>Email</th>
-                            <th>Actions</th>
+                            
                         </tr>
                     </thead>
                     
                     <tbody>
-                        <%
-                            UserService us = new UserService();
-                            java.util.List<User> users = us.findAll();
-                            if(users != null && !users.isEmpty()) {
-                                for(User u : users){
-                        %>
+                       
                         <tr>
-                            <td><%= u.getId() %></td>
-                            <td><%= u.getNom() %></td>
-                            <td><%= u.getPrenom() %></td>
-                            <td><%= u.getEmail() %></td>
-                            <td class="actions-container">
-                                <a href="../SignupController?id=<%= u.getId()%>&op=delete">Supprimer</a>
-                                <a href="../SignupController?id=<%= u.getId()%>&op=update">Modifier</a>
-                            </td>
+                            
+                            <td><%= session.getAttribute("nom") %></td>
+                            <td><%= session.getAttribute("prenom") %></td>
+                            <td><%= session.getAttribute("email") %></td>
+                            
                         </tr>
-                        <% 
-                                }
-                            } else {
-                        %>
+                       
                         <tr>
-                            <td colspan="5" class="empty-message">Aucun étudiant trouvé</td>
+                            
                         </tr>
-                        <% } %>
+                        
                     </tbody>
                 </table>
                 
-                <a href="signup.jsp" class="add-button">Ajouter un étudiant</a>
+                
             </fieldset>
         </div>
     </body>

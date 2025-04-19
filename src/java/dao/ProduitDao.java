@@ -24,7 +24,7 @@ public class ProduitDao extends AbstractDao<Produit> {
     public ProduitDao() {
         super(Produit.class);
     }
-    
+
     public List<Produit> findByQuantite(int q1, int q2) {
         Session session = null;
         Transaction tx = null;
@@ -46,7 +46,7 @@ public class ProduitDao extends AbstractDao<Produit> {
         return produits;
     }
 
-   public List<Produit> findByCategorie(Categorie c) {
+    public List<Produit> findByCategorie(Categorie c) {
         Session session = null;
         Transaction tx = null;
         List<Produit> produits = null;
@@ -66,5 +66,7 @@ public class ProduitDao extends AbstractDao<Produit> {
         }
         return produits;
     }
+
     
+
 }

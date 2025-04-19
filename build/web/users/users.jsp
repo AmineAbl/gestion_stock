@@ -24,10 +24,61 @@
             body {
                 background-color: #f5f5f5;
                 display: flex;
-                justify-content: center;
-                align-items: center;
                 min-height: 100vh;
+            }
+            
+            /* Sidebar styles */
+            .sidebar {
+                width: 250px;
+                background-color: #2c3e50;
+                color: white;
+                height: 100vh;
+                position: fixed;
+                padding: 20px 0;
+                transition: all 0.3s;
+            }
+            
+            .sidebar-header {
+                padding: 0 20px 20px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                text-align: center;
+            }
+            
+            .sidebar-header h3 {
+                color: white;
+                margin-top: 10px;
+            }
+            
+            .sidebar-menu {
+                padding: 20px 0;
+            }
+            
+            .sidebar-menu ul {
+                list-style: none;
+            }
+            
+            .sidebar-menu li a {
+                display: block;
+                padding: 12px 20px;
+                color: #ecf0f1;
+                text-decoration: none;
+                transition: all 0.3s;
+            }
+            
+            .sidebar-menu li a:hover {
+                background-color: #34495e;
+                color: white;
+            }
+            
+            .sidebar-menu li a i {
+                margin-right: 10px;
+            }
+            
+            /* Main content area */
+            .main-content {
+                margin-left: 250px;
                 padding: 20px;
+                width: calc(100% - 250px);
             }
             
             fieldset {
@@ -143,6 +194,16 @@
             }
             
             @media (max-width: 768px) {
+                .sidebar {
+                    width: 0;
+                    overflow: hidden;
+                }
+                
+                .main-content {
+                    margin-left: 0;
+                    width: 100%;
+                }
+                
                 table {
                     display: block;
                     overflow-x: auto;
@@ -163,51 +224,73 @@
                 }
             }
         </style>
+        <!-- Font Awesome for icons -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     </head>
     <body>
-        <fieldset>
-            <legend>Liste des étudiants</legend>
-            
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nom</th>
-                        <th>Prénom</th>
-                        <th>Email</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h3>Menu Admin</h3>
+            </div>
+            <div class="sidebar-menu">
+                <ul>
+                    <li><a href="produits.jsp"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="categorie.jsp" class="active"><i class="fas fa-users"></i> Catégories</a></li>
+                    <li><a href="#"><i class="fas fa-book"></i> Mouvement de stock</a></li>
+                    <li><a href="#"><i class="fas fa-chart-bar"></i> Statistiques</a></li>
+                    <li><a href="profile.jsp"><i class="fas fa-cog"></i> Profile</a></li>
+                    <li><a href="login.jsp"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Main content -->
+        <div class="main-content">
+            <fieldset>
+                <legend>Liste des étudiants</legend>
                 
-                <tbody>
-                    <%
-                        UserService us = new UserService();
-                        java.util.List<User> users = us.findAll();
-                        if(users != null && !users.isEmpty()) {
-                            for(User u : users){
-                    %>
-                    <tr>
-                        <td><%= u.getId() %></td>
-                        <td><%= u.getNom() %></td>
-                        <td><%= u.getPrenom() %></td>
-                        <td><%= u.getEmail() %></td>
-                        <td class="actions-container">
-                            <a href="../UserController?id=<%= u.getId()%>&op=delete">Supprimer</a>
-                            <a href="../UserController?id=<%= u.getId()%>&op=update">Modifier</a>
-                        </td>
-                    </tr>
-                    <% 
-                            }
-                        } else {
-                    %>
-                    <tr>
-                        <td colspan="5" class="empty-message">Aucun étudiant trouvé</td>
-                    </tr>
-                    <% } %>
-                </tbody>
-            </table>
-            
-            <a href="user.jsp" class="add-button">Ajouter un étudiant</a>
-        </fieldset>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Email</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        <%
+                            UserService us = new UserService();
+                            java.util.List<User> users = us.findAll();
+                            if(users != null && !users.isEmpty()) {
+                                for(User u : users){
+                        %>
+                        <tr>
+                            <td><%= u.getId() %></td>
+                            <td><%= u.getNom() %></td>
+                            <td><%= u.getPrenom() %></td>
+                            <td><%= u.getEmail() %></td>
+                            <td class="actions-container">
+                                <a href="../SignupController?id=<%= u.getId()%>&op=delete">Supprimer</a>
+                                <a href="../SignupController?id=<%= u.getId()%>&op=update">Modifier</a>
+                            </td>
+                        </tr>
+                        <% 
+                                }
+                            } else {
+                        %>
+                        <tr>
+                            <td colspan="5" class="empty-message">Aucun étudiant trouvé</td>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+                
+                <a href="signup.jsp" class="add-button">Ajouter un étudiant</a>
+            </fieldset>
+        </div>
     </body>
 </html>

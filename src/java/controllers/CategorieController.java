@@ -5,34 +5,29 @@
  */
 package controllers;
 
-import entities.User;
+import entities.Categorie;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import services.UserService;
+import services.CategorieService;
 
 /**
  *
  * @author AMINE
  */
-@WebServlet(name = "LoginController", urlPatterns = {"/LoginController"})
-public class LoginController extends HttpServlet {
-
-    private UserService us;
-
-    @Override
-    public void init() throws ServletException {
-        super.init(); //To change body of generated methods, choose Tools | Templates.
-        us = new UserService();
-    }
-
+@WebServlet(name = "CategorieController", urlPatterns = {"/CategorieController"})
+public class CategorieController extends HttpServlet {
+        private CategorieService cs;
+        
+        @Override
+        public void init() throws ServletException {
+            super.init(); //To change body of generated methods, choose Tools | Templates.
+            cs = new CategorieService();
+        }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -44,37 +39,32 @@ public class LoginController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        String email = request.getParameter("email");
-        String passworde = request.getParameter("mdp");
-
-        List<User> utilisateurs = us.findByEmail(email);
-
-        if (!utilisateurs.isEmpty()) {
-            System.out.println(email);
-            System.out.println(passworde);
-            User u = utilisateurs.get(0);
-            if (u.getMotDePasse().equals(passworde)) {
-                
-                HttpSession session = request.getSession();
-                session.setAttribute("id", u.getId());
-                session.setAttribute("nom", u.getNom());
-                session.setAttribute("prenom", u.getPrenom());
-                session.setAttribute("email", u.getEmail());
-                
-                response.sendRedirect("users/produits.jsp");
-               // RequestDispatcher dispatcher = request.getRequestDispatcher("users/profile.jsp");
-               // dispatcher.forward(request, response);
-                return;
+         String op = request.getParameter("op");
+        if (op == null) {
+            String id = request.getParameter("id");
+            if (id == null || id.isEmpty()) {
+                String nom = request.getParameter("nom");
+                cs.create(new Categorie(nom));
+                response.sendRedirect("users/categorie.jsp");
+            }else{
+                String nom = request.getParameter("nom");
+                Categorie c = new Categorie(nom);
+                c.setId(Integer.parseInt(id));
+                cs.update(c);
+                response.sendRedirect("users/categorie.jsp");
             }
-            
+        } else if (op.equals("delete")) {
+            String id = request.getParameter("id");
+            cs.delete(cs.findById(Integer.parseInt(id)));
+            response.sendRedirect("users/categorie.jsp");
+        } else if (op.equals("update")) {
+            String id = request.getParameter("id");
+            Categorie u = cs.findById(Integer.parseInt(id));
+            response.sendRedirect("users/addCategorie.jsp?id=" + u.getId() + "&nom=" + u.getNom());
         }
-        response.sendRedirect("users/login.jsp");
-        
-
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

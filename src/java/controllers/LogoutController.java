@@ -5,33 +5,21 @@
  */
 package controllers;
 
-import entities.User;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import services.UserService;
 
 /**
  *
  * @author AMINE
  */
-@WebServlet(name = "LoginController", urlPatterns = {"/LoginController"})
-public class LoginController extends HttpServlet {
-
-    private UserService us;
-
-    @Override
-    public void init() throws ServletException {
-        super.init(); //To change body of generated methods, choose Tools | Templates.
-        us = new UserService();
-    }
+@WebServlet(name = "LogoutController", urlPatterns = {"/LogoutController"})
+public class LogoutController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,37 +32,14 @@ public class LoginController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        String email = request.getParameter("email");
-        String passworde = request.getParameter("mdp");
-
-        List<User> utilisateurs = us.findByEmail(email);
-
-        if (!utilisateurs.isEmpty()) {
-            System.out.println(email);
-            System.out.println(passworde);
-            User u = utilisateurs.get(0);
-            if (u.getMotDePasse().equals(passworde)) {
-                
-                HttpSession session = request.getSession();
-                session.setAttribute("id", u.getId());
-                session.setAttribute("nom", u.getNom());
-                session.setAttribute("prenom", u.getPrenom());
-                session.setAttribute("email", u.getEmail());
-                
-                response.sendRedirect("users/produits.jsp");
-               // RequestDispatcher dispatcher = request.getRequestDispatcher("users/profile.jsp");
-               // dispatcher.forward(request, response);
-                return;
-            }
-            
-        }
-        response.sendRedirect("users/login.jsp");
+        response.setContentType("text/html;charset=UTF-8");
         
-
+        HttpSession session = request.getSession(); // Récupère la session s'il y en a une
+        session.invalidate(); // Détruit la session
+        response.sendRedirect("users/login.jsp"); // Redirection vers la page de login
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

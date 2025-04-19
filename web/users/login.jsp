@@ -173,7 +173,7 @@
             </form>
             
             <div class="register-link">
-                Vous n'avez pas de compte ? <a href="user.jsp">S'inscrire</a>
+                Vous n'avez pas de compte ? <a href="signup.jsp">S'inscrire</a>
             </div>
         </div>
     </body>

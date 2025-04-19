@@ -21,7 +21,8 @@ import org.hibernate.annotations.NamedQuery;
 @Entity
 @NamedQueries({
     @NamedQuery(name = "findByQuantite", query = "from Produit where quantite between :q1 and :q2"),
-    @NamedQuery(name  ="findByCategorie", query = "from Produit where categorie.id =:id")
+    @NamedQuery(name  ="findByCategorie", query = "from Produit where categorie.id =:id"),
+    
 })
 
 //@NamedNativeQuery(name="" , query ="" ,resultClass = Produit.class)
