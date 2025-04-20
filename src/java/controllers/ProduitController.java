@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import services.CategorieService;
 import services.ProduitService;
 
 /**
@@ -22,12 +23,14 @@ import services.ProduitService;
  */
 @WebServlet(name = "ProduitController", urlPatterns = {"/ProduitController"})
 public class ProduitController extends HttpServlet {
-    private ProduitService ps;
+     private ProduitService ps;
+    private CategorieService cs;
     
     @Override
         public void init() throws ServletException {
             super.init(); //To change body of generated methods, choose Tools | Templates.
             ps = new ProduitService();
+            cs = new CategorieService();
     }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,11 +43,50 @@ public class ProduitController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-     
+         String op = request.getParameter("op");
+        if (op == null) {
+            String id = request.getParameter("id");
+
+            String nom = request.getParameter("nom");
+            String prix = request.getParameter("prix");
+            String quantite = request.getParameter("quantite");
+            int idCategorie = Integer.parseInt(request.getParameter("categorie"));
+            Categorie categorie = cs.findById(idCategorie);
+            System.out.println("###################");
+            System.out.println(nom);
+            System.out.println(prix);
+            System.out.println(quantite);
+            System.out.println(categorie);
+            if (id == null || id.isEmpty()) {
+                // Création
+                Produit p = new Produit(nom, (int) Double.parseDouble(prix), Integer.parseInt(quantite), categorie);
+                ps.create(p);
+            } else {
+                // Modification
+                Produit p = new Produit(nom, (int) Double.parseDouble(prix), Integer.parseInt(quantite), categorie);
+                p.setId(Integer.parseInt(id));
+                ps.update(p);
+            }
+
+            response.sendRedirect("users/produits.jsp");
+
+        } else if (op.equals("delete")) {
+            int id = Integer.parseInt(request.getParameter("id"));
+            ps.delete(ps.findById(id));
+            response.sendRedirect("users/produits.jsp");
+
+        } else if (op.equals("update")) {
+            int id = Integer.parseInt(request.getParameter("id"));
+            Produit p = ps.findById(id);
+            response.sendRedirect("users/addProduit.jsp?id=" + p.getId()
+                    + "&nom=" + p.getNom()
+                    + "&prix=" + p.getPrix()
+                    + "&quantite=" + p.getQuantite()
+                    + "&categorie=" + p.getCategorie().getId());
         
         
     }
-
+    }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
