@@ -134,7 +134,7 @@
     <body>
         <fieldset>
             <legend>Formulaire d'utilisateur</legend>
-            <form method="POST" action="../CategorieController">
+            <form method="POST" action="${pageContext.request.contextPath}/CategorieController">
                 <input type="hidden" name="id" value="<%= request.getParameter("id") != null ? request.getParameter("id") : "" %>" />
                 <table>
                     <tr class="form-group">

@@ -5,34 +5,27 @@
  */
 package controllers;
 
-import entities.User;
+import entities.Categorie;
+import entities.Produit;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import services.UserService;
+import services.CategorieService;
+import services.ProduitService;
 
 /**
  *
  * @author AMINE
  */
-@WebServlet(name = "LoginController", urlPatterns = {"/LoginController"})
-public class LoginController extends HttpServlet {
-
-    private UserService us;
-
-    @Override
-    public void init() throws ServletException {
-        super.init(); //To change body of generated methods, choose Tools | Templates.
-        us = new UserService();
-    }
-
+@WebServlet(name = "Route", urlPatterns = {"/Route"})
+public class Route extends HttpServlet {
+        ProduitService ps;
+        CategorieService cs;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -44,37 +37,39 @@ public class LoginController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        ps = new ProduitService();
+        cs = new CategorieService();
+        String page = request.getParameter("page");
 
-        String email = request.getParameter("email");
-        String passworde = request.getParameter("mdp");
-
-        List<User> utilisateurs = us.findByEmail(email);
-
-        if (!utilisateurs.isEmpty()) {
-            System.out.println(email);
-            System.out.println(passworde);
-            User u = utilisateurs.get(0);
-            if (u.getMotDePasse().equals(passworde)) {
-                
-                HttpSession session = request.getSession();
-                session.setAttribute("id", u.getId());
-                session.setAttribute("nom", u.getNom());
-                session.setAttribute("prenom", u.getPrenom());
-                session.setAttribute("email", u.getEmail());
-                
-             //   response.sendRedirect("users/produits.jsp");
-                RequestDispatcher dispatcher = request.getRequestDispatcher("users/produits.jsp");
-                dispatcher.forward(request, response);
-                return;
-            }
+        switch (page){
+            case "profile":
+                request.getRequestDispatcher("users/profile.jsp").forward(request, response);
+                break;
+            case "produits":
+                List<Produit> produits = ps.findAll();
+                request.setAttribute("produits", produits);
+                request.getRequestDispatcher("users/produits.jsp").forward(request, response);
+                break;
+            case "categories":
+                List<Categorie> categories = cs.findAll();
+                request.setAttribute("categories", categories);
+                request.getRequestDispatcher("users/categorie.jsp").forward(request, response);
+                break;
+            case "ajouterproduit":
+                request.getRequestDispatcher("users/addProduit.jsp").forward(request, response);
+                break;
+             case "ajoutercategorie":
+                request.getRequestDispatcher("users/addCategorie.jsp").forward(request, response);
+                break;
+            case "deconnexion":
+                request.getRequestDispatcher("users/login.jsp").forward(request, response);
+                break;
             
         }
-        response.sendRedirect("users/login.jsp");
-        
 
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

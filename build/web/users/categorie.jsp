@@ -237,12 +237,12 @@
             </div>
             <div class="sidebar-menu">
                 <ul>
-                    <li><a href="produits.jsp"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                    <li><a href="categorie.jsp" class="active"><i class="fas fa-users"></i> Catégories</a></li>
+                    <li><a href="Route?page=produits"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="Route?page=categories" class="active"><i class="fas fa-users"></i> Catégories</a></li>
                     <li><a href="#"><i class="fas fa-book"></i> Mouvement de stock</a></li>
                     <li><a href="#"><i class="fas fa-chart-bar"></i> Statistiques</a></li>
-                    <li><a href="profile.jsp"><i class="fas fa-cog"></i> Profile</a></li>
-                    <li><a href="../LogoutController"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+                    <li><a href="Route?page=profile"><i class="fas fa-cog"></i> Profile</a></li>
+                    <li><a href="${pageContext.request.contextPath}/LogoutController"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
                 </ul>
             </div>
         </div>
@@ -273,8 +273,8 @@
                             <td><%= c.getNom() %></td>
                             
                             <td class="actions-container">
-                                <a href="../CategorieController?id=<%= c.getId()%>&op=delete">Supprimer</a>
-                                <a href="../CategorieController?id=<%= c.getId()%>&op=update">Modifier</a>
+                                <a href="${pageContext.request.contextPath}/CategorieController?id=<%= c.getId() %>&op=delete">Supprimer</a>
+                                <a href="${pageContext.request.contextPath}/CategorieController?id=<%= c.getId() %>&op=update">Modifier</a>
                             </td>
                         </tr>
                         <% 
@@ -288,7 +288,7 @@
                     </tbody>
                 </table>
                 
-                <a href="addCategorie.jsp" class="add-button">Ajouter une catégorie</a>
+                <a href="Route?page=ajoutercategorie" class="add-button">Ajouter une catégorie</a>
             </fieldset>
         </div>
     </body>

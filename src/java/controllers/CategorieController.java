@@ -8,6 +8,7 @@ package controllers;
 import entities.Categorie;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -45,22 +46,23 @@ public class CategorieController extends HttpServlet {
             if (id == null || id.isEmpty()) {
                 String nom = request.getParameter("nom");
                 cs.create(new Categorie(nom));
-                response.sendRedirect("users/categorie.jsp");
+                response.sendRedirect("Route?page=categories");
             }else{
                 String nom = request.getParameter("nom");
                 Categorie c = new Categorie(nom);
                 c.setId(Integer.parseInt(id));
                 cs.update(c);
-                response.sendRedirect("users/categorie.jsp");
+                response.sendRedirect("Route?page=categories");
+                
             }
         } else if (op.equals("delete")) {
             String id = request.getParameter("id");
             cs.delete(cs.findById(Integer.parseInt(id)));
-            response.sendRedirect("users/categorie.jsp");
+            response.sendRedirect("Route?page=categories");
         } else if (op.equals("update")) {
             String id = request.getParameter("id");
             Categorie u = cs.findById(Integer.parseInt(id));
-            response.sendRedirect("users/addCategorie.jsp?id=" + u.getId() + "&nom=" + u.getNom());
+            response.sendRedirect("Route?page=ajoutercategorie&id=" + u.getId() + "&nom=" + u.getNom());
         }
     }
 

@@ -8,6 +8,7 @@ package controllers;
 import entities.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -49,7 +50,9 @@ public class SignupController extends HttpServlet {
                 String email = request.getParameter("email");
                 String mdp = request.getParameter("mdp");
                 us.create(new User(nom, prenom, email, mdp));
-                response.sendRedirect("users/users.jsp");
+          //      response.sendRedirect("users/users.jsp");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("users/users.jsp");
+                dispatcher.forward(request, response);
             }else{
                 String nom = request.getParameter("nom");
                 String prenom = request.getParameter("prenom");
@@ -58,16 +61,22 @@ public class SignupController extends HttpServlet {
                 User u = new User(nom, prenom, email, mdp);
                 u.setId(Integer.parseInt(id));
                 us.update(u);
-                response.sendRedirect("users/users.jsp");
+          //      response.sendRedirect("users/users.jsp");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("users/users.jsp");
+                dispatcher.forward(request, response);
             }
         } else if (op.equals("delete")) {
             String id = request.getParameter("id");
             us.delete(us.findById(Integer.parseInt(id)));
-            response.sendRedirect("users/users.jsp");
+     //       response.sendRedirect("users/users.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("users/users.jsp");
+            dispatcher.forward(request, response);
         } else if (op.equals("update")) {
             String id = request.getParameter("id");
             User u = us.findById(Integer.parseInt(id));
-            response.sendRedirect("users/signup.jsp?id=" + u.getId() + "&nom=" + u.getNom() + "&prenom=" + u.getPrenom() + "&email=" + u.getEmail() +"&mdp=" + u.getMotDePasse());
+   //         response.sendRedirect("users/signup.jsp?id=" + u.getId() + "&nom=" + u.getNom() + "&prenom=" + u.getPrenom() + "&email=" + u.getEmail() +"&mdp=" + u.getMotDePasse());
+            RequestDispatcher dispatcher = request.getRequestDispatcher("users/signup.jsp?id=" + u.getId() + "&nom=" + u.getNom() + "&prenom=" + u.getPrenom() + "&email=" + u.getEmail() +"&mdp=" + u.getMotDePasse());
+            dispatcher.forward(request, response);
         }
     }
 

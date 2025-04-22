@@ -9,6 +9,7 @@ import entities.Categorie;
 import entities.Produit;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -68,21 +69,32 @@ public class ProduitController extends HttpServlet {
                 ps.update(p);
             }
 
-            response.sendRedirect("users/produits.jsp");
+            response.sendRedirect("Route?page=produits");
+       /*     RequestDispatcher dispatcher = request.getRequestDispatcher("users/produits.jsp");
+            dispatcher.forward(request, response);*/
 
         } else if (op.equals("delete")) {
             int id = Integer.parseInt(request.getParameter("id"));
             ps.delete(ps.findById(id));
-            response.sendRedirect("users/produits.jsp");
+            response.sendRedirect("Route?page=produits");
+     /*       RequestDispatcher dispatcher = request.getRequestDispatcher("users/produits.jsp");
+            dispatcher.forward(request, response);*/
 
         } else if (op.equals("update")) {
             int id = Integer.parseInt(request.getParameter("id"));
             Produit p = ps.findById(id);
-            response.sendRedirect("users/addProduit.jsp?id=" + p.getId()
+           response.sendRedirect("Route?page=ajouterproduit&id=" + p.getId()
                     + "&nom=" + p.getNom()
                     + "&prix=" + p.getPrix()
                     + "&quantite=" + p.getQuantite()
                     + "&categorie=" + p.getCategorie().getId());
+            
+      /*      RequestDispatcher dispatcher = request.getRequestDispatcher("users/addProduit.jsp?id=" + p.getId()
+                    + "&nom=" + p.getNom()
+                    + "&prix=" + p.getPrix()
+                    + "&quantite=" + p.getQuantite()
+                    + "&categorie=" + p.getCategorie().getId());
+            dispatcher.forward(request, response);*/
         
         
     }

@@ -151,7 +151,7 @@
     <body>
         <fieldset>
             <legend>Formulaire du produit</legend>
-            <form method="POST" action="../ProduitController">
+            <form method="POST" action="${pageContext.request.contextPath}/ProduitController">
                 <input type="hidden" name="id" value="<%= request.getParameter("id") != null ? request.getParameter("id") : ""%>" />
                 <table>
                     <tr class="form-group">
