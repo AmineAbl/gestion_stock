@@ -12,6 +12,7 @@
             <file>file:/E:/netbeans/Gestion_stock/src/java/controllers/ProduitController.java</file>
             <file>file:/E:/netbeans/Gestion_stock/src/java/dao/ProduitDao.java</file>
             <file>file:/E:/netbeans/Gestion_stock/web/users/login.jsp</file>
+            <file>file:/E:/netbeans/Gestion_stock/src/java/controllers/Route.java</file>
             <file>file:/E:/netbeans/Gestion_stock/src/java/entities/Produit.java</file>
             <file>file:/E:/netbeans/Gestion_stock/src/java/dao/AbstractDao.java</file>
             <file>file:/E:/netbeans/Gestion_stock/src/java/config/hibernate.cfg.xml</file>
@@ -19,18 +20,21 @@
             <file>file:/E:/netbeans/Gestion_stock/src/java/services/UserService.java</file>
             <file>file:/E:/netbeans/Gestion_stock/web/index.html</file>
             <file>file:/E:/netbeans/Gestion_stock/src/java/dao/UserDao.java</file>
+            <file>file:/E:/netbeans/Gestion_stock/src/java/controllers/StatistiqueController.java</file>
             <file>file:/E:/netbeans/Gestion_stock/web/users/categorie.jsp</file>
             <file>file:/E:/netbeans/Gestion_stock/src/java/entities/MouvementStock.java</file>
             <file>file:/E:/netbeans/Gestion_stock/src/java/controllers/SignupController.java</file>
             <file>file:/E:/netbeans/Gestion_stock/web/users/profile.jsp</file>
             <file>file:/E:/netbeans/Gestion_stock/src/java/dao/CategorieDao.java</file>
             <file>file:/E:/netbeans/Gestion_stock/web/users/signup.jsp</file>
+            <file>file:/E:/netbeans/Gestion_stock/src/java/mapper/CategorieCount.java</file>
             <file>file:/E:/netbeans/Gestion_stock/web/users/users.jsp</file>
             <file>file:/E:/netbeans/Gestion_stock/src/java/services/CategorieService.java</file>
             <file>file:/E:/netbeans/Gestion_stock/src/java/controllers/LogoutController.java</file>
             <file>file:/E:/netbeans/Gestion_stock/src/java/entities/User.java</file>
             <file>file:/E:/netbeans/Gestion_stock/src/java/util/HibernateUtil.java</file>
             <file>file:/E:/netbeans/Gestion_stock/web/users/produits.jsp</file>
+            <file>file:/E:/netbeans/Gestion_stock/web/users/statistiques.jsp</file>
             <file>file:/E:/netbeans/Gestion_stock/src/java/services/IService.java</file>
             <file>file:/E:/netbeans/Gestion_stock/src/java/dao/IDao.java</file>
             <file>file:/E:/netbeans/Gestion_stock/web/users/addCategorie.jsp</file>

@@ -5,27 +5,28 @@
  */
 package controllers;
 
+import com.google.gson.Gson;
+import dao.ProduitDao;
 import entities.Categorie;
-import entities.Produit;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import services.CategorieService;
-import services.ProduitService;
+import mapper.CategorieCount;
 
 /**
  *
  * @author AMINE
  */
-@WebServlet(name = "Route", urlPatterns = {"/Route"})
-public class Route extends HttpServlet {
-        ProduitService ps;
-        CategorieService cs;
+@WebServlet(name = "StatistiqueController", urlPatterns = {"/StatistiqueController"})
+public class StatistiqueController extends HttpServlet {
+        private final ProduitDao pd = new ProduitDao();
+        
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -37,36 +38,24 @@ public class Route extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ps = new ProduitService();
-        cs = new CategorieService();
-        String page = request.getParameter("page");
+         // 1. Récupérer les résultats de la NamedQuery
+        List<Object[]> resultats = pd.findCategorieWithProduitCount();
 
-        switch (page){
-            case "profile":
-                request.getRequestDispatcher("users/profile.jsp").forward(request, response);
-                break;
-            case "produits":
-                List<Produit> produits = ps.findAll();
-                request.setAttribute("produits", produits);
-                request.getRequestDispatcher("users/produits.jsp").forward(request, response);
-                break;
-            case "categories":
-                List<Categorie> categories = cs.findAll();
-                request.setAttribute("categories", categories);
-                request.getRequestDispatcher("users/categorie.jsp").forward(request, response);
-                break;
-            case "ajouterproduit":
-                request.getRequestDispatcher("users/addProduit.jsp").forward(request, response);
-                break;
-             case "ajoutercategorie":
-                request.getRequestDispatcher("users/addCategorie.jsp").forward(request, response);
-                break;
-            case "statistiques":
-                request.getRequestDispatcher("users/statistiques.jsp").forward(request, response);
-                break;
-            
+        // 2. Transformer en liste de DTO
+        List<CategorieCount> stats = new ArrayList<>();
+        for (Object[] ligne : resultats) {
+            Categorie categorie    = (Categorie) ligne[0];
+            Long    count      = (Long)    ligne[1];
+            stats.add(new CategorieCount(categorie.getNom(), count));
         }
 
+        // 3. Sérialiser en JSON
+        String json = new Gson().toJson(stats);
+
+        // 4. Envoyer la réponse
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(json);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

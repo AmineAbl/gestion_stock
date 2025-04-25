@@ -15,6 +15,7 @@ import entities.MouvementStock;
 import entities.Produit;
 import entities.User;
 import java.util.Date;
+import java.util.List;
 
 public class Test {
     public static void main(String[] args) {
@@ -82,7 +83,7 @@ public class Test {
         }
        
        */
-                
+         /*       
         for(Produit p : pd.findByCategorie(cd.findById(1))){
             System.out.println(p.getNom());
         }
@@ -90,6 +91,15 @@ public class Test {
         
         for(Produit p : pd.findByQuantite(10, 20)){
             System.out.println(p.getNom());
+        }
+        */
+        List<Object[]> resultats = pd.findCategorieWithProduitCount();
+
+        for (Object[] ligne : resultats) {
+            Categorie categorie = (Categorie) ligne[0];
+            Long nbEtudiants = (Long) ligne[1];
+            System.out.printf("Categorie %s → %d produits%n",
+                    categorie.getNom(), nbEtudiants);
         }
         
         }

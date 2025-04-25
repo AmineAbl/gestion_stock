@@ -4,8 +4,6 @@
     Author     : AMINE
 --%>
 
-<%@page import="entities.Categorie"%>
-<%@page import="services.CategorieService"%>
 <%@page import="entities.User"%>
 <%@page import="services.UserService"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -14,7 +12,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Liste des Categories</title>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+        <title>Statistiques</title>
         <style>
             * {
                 margin: 0;
@@ -247,49 +246,68 @@
             </div>
         </div>
         
-        <!-- Main content -->
-        <div class="main-content">
-            <fieldset>
-                <legend>Liste des catégories</legend>
-                
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nom</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    
-                    <tbody>
-                        <%
-                            CategorieService cd = new CategorieService();
-                            java.util.List<Categorie> categories = cd.findAll();
-                            if(categories != null && !categories.isEmpty()) {
-                                for(Categorie c : categories){
-                        %>
-                        <tr>
-                            <td><%= c.getId() %></td>
-                            <td><%= c.getNom() %></td>
-                            
-                            <td class="actions-container">
-                                <a href="${pageContext.request.contextPath}/CategorieController?id=<%= c.getId() %>&op=delete">Supprimer</a>
-                                <a href="${pageContext.request.contextPath}/CategorieController?id=<%= c.getId() %>&op=update">Modifier</a>
-                            </td>
-                        </tr>
-                        <% 
-                                }
-                            } else {
-                        %>
-                        <tr>
-                            <td colspan="5" class="empty-message">Aucune catégorie trouvée</td>
-                        </tr>
-                        <% } %>
-                    </tbody>
-                </table>
-                
-                <a href="Route?page=ajoutercategorie" class="add-button">Ajouter une catégorie</a>
-            </fieldset>
-        </div>
+       <div id="chart-container">
+    <canvas id="myChart"></canvas>
+  </div>
+
+  <script>
+    // Dès que le DOM est prêt...
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Appel au service REST
+      fetch('http://localhost:8981/web/StatistiqueController')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(data => {
+          // 2. Extraction des labels et des valeurs
+          const labels = data.map(item => item.code);
+          const valeurs = data.map(item => item.nbEtudiants);
+
+          // 3. Initialisation du canvas
+          const ctx = document.getElementById('myChart').getContext('2d');
+
+          // 4. Création du graphique
+          new Chart(ctx, {
+            type: 'bar',  // ou 'line' si vous préférez une courbe
+            data: {
+              labels: labels,
+              datasets: [{
+                label: 'Nombre de produit ',
+                data: valeurs,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor:   'rgb(75, 192, 192)',
+                borderWidth: 1
+              }]
+            },
+            options: {
+              responsive: true,
+              plugins: {
+                title: {
+                  display: true,
+                  text: 'Produits par catégorie'
+                },
+                legend: {
+                  display: false
+                }
+              },
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  ticks: { stepSize: 1 }
+                }
+              }
+            }
+          });
+        })
+        .catch(err => {
+          console.error('Erreur de chargement des données :', err);
+          const container = document.getElementById('chart-container');
+          container.innerHTML = '<p style="color:red;">Impossible de charger les données.</p>';
+        });
+    });
+  </script>
     </body>
 </html>

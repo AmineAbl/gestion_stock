@@ -15,32 +15,36 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import mapper.CategorieCount;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
 @Entity
 @NamedQueries({
     @NamedQuery(name = "findByQuantite", query = "from Produit where quantite between :q1 and :q2"),
-    @NamedQuery(name  ="findByCategorie", query = "from Produit where categorie.id =:id"),
-    
-})
+    @NamedQuery(name = "findByCategorie", query = "from Produit where categorie.id =:id"),
+    @NamedQuery(
+            name = "findCategorieWithProduitCount",
+            query = "SELECT p.categorie, COUNT(p.id) FROM Produit p GROUP BY p.categorie.id"
+    )
 
-//@NamedNativeQuery(name="" , query ="" ,resultClass = Produit.class)
+})
 @Table(name = "produits")
 public class Produit {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String nom;
     private int quantite;
     private float prix;
-    
+
     @ManyToOne
     private Categorie categorie;
-    
-    @OneToMany (mappedBy = "produit" , fetch = FetchType.EAGER)
-    private List<MouvementStock>mouvementStocks;
-            
+
+    @OneToMany(mappedBy = "produit", fetch = FetchType.EAGER)
+    private List<MouvementStock> mouvementStocks;
+
     public Produit() {
     }
 
@@ -99,8 +103,4 @@ public class Produit {
         this.mouvementStocks = mouvementStocks;
     }
 
-    
-
-    
-    
 }

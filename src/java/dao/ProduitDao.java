@@ -66,7 +66,24 @@ public class ProduitDao extends AbstractDao<Produit> {
         }
         return produits;
     }
-
+    
+     public List<Object[]> findCategorieWithProduitCount() {
+        Session session = null;
+        Transaction tx = null;
+        List<Object[]> stats = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            tx = session.beginTransaction();
+            stats = session.getNamedQuery("findCategorieWithProduitCount").list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            throw e;
+        } finally {
+            if (session != null) session.close();
+        }
+        return stats;
+    }
     
 
 }
