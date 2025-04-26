@@ -9,6 +9,10 @@ import dao.ProduitDao;
 import entities.Categorie;
 import entities.Produit;
 import java.util.List;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import util.HibernateUtil;
 
 /**
  *
@@ -52,6 +56,10 @@ public class ProduitService implements IService<Produit> {
     
    public List<Produit> findByCategorie(Categorie c) {
         return pd.findByCategorie(c);
+    }
+   
+   public List<Object[]> findCategorieWithProduitCount() {
+    return pd.findCategorieWithProduitCount();
     }
 
 }
