@@ -1,19 +1,17 @@
-<%-- 
-    Document   : users
-    Created on : 15 avr. 2025, 10:56:11
-    Author     : AMINE
---%>
-
-<%@page import="entities.User"%>
-<%@page import="services.UserService"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="services.MouvementStockService" %>
+<%@ page import="services.ProduitService" %>
+<%@ page import="java.util.List" %>
+<%@ page import="entities.MouvementStock" %>
+<%@ page import="entities.Produit" %>
+<%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Profile</title>
-        <style>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mouvement de Stock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+   <style>
             * {
                 margin: 0;
                 padding: 0;
@@ -224,11 +222,11 @@
                 }
             }
         </style>
-        <!-- Font Awesome for icons -->
+         <!-- Font Awesome for icons -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    </head>
-    <body>
-        <!-- Sidebar -->
+</head>
+<body>
+   <!-- Sidebar -->
         <div class="sidebar">
             <div class="sidebar-header">
                 <h3>Menu Admin</h3>
@@ -244,41 +242,90 @@
                 </ul>
             </div>
         </div>
-        
-        <!-- Main content -->
-        <div class="main-content">
-            <fieldset>
-                <legend>Liste des étudiants</legend>
                 
-                <table>
-                    <thead>
+                 <!-- Main Content -->
+    <div class="main-content">
+        <fieldset>
+            <legend>Mouvement de Stock</legend>
+
+            <!-- Formulaire d'ajout de mouvement de stock -->
+            <form action="${pageContext.request.contextPath}/MouvementController" method="POST">
+                <div class="form-group">
+                    <label for="produit">Produit</label>
+                    <select id="produit" name="produit" required>
+                        <%  
+                            // Récupération de la liste des produits
+                            ProduitService ps = new ProduitService();
+                            List<Produit> produits = (List<Produit>) ps.findAll();
+                            if (produits != null && !produits.isEmpty()) {
+                                for (Produit p : produits) {
+                        %>
+                            <option value="<%= p.getId() %>"><%= p.getNom() %></option>
+                        <% 
+                                }
+                            } else {
+                        %>
+                            <option>Aucun produit disponible</option>
+                        <% 
+                            }
+                        %>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="quantite">Quantité</label>
+                    <input type="number" id="quantite" name="quantite" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="type">Type</label>
+                    <select id="type" name="type" required>
+                        <option value="ajout">Ajout</option>
+                        <option value="retrait">Retrait</option>
+                    </select>
+                </div>
+
+                <button type="submit">Ajouter Mouvement</button>
+            </form>
+
+            <!-- Table des mouvements de stock -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Quantité</th>
+                        <th>Type</th>
+                        <th>Produit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%  
+                        MouvementStockService mss = new MouvementStockService();
+                        List<MouvementStock> mouvements = mss.findAll();
+                        if (mouvements.isEmpty()) {
+                    %>
                         <tr>
-                            <th>Nom</th>
-                            <th>Prénom</th>
-                            <th>Email</th>
-                            
+                            <td colspan="4" class="empty-message">Aucun mouvement de stock disponible.</td>
                         </tr>
-                    </thead>
-                    
-                    <tbody>
-                       
+                    <% 
+                        } else {
+                            for (MouvementStock mouvement : mouvements) {
+                    %>
                         <tr>
-                            
-                            <td><%= session.getAttribute("nom") %></td>
-                            <td><%= session.getAttribute("prenom") %></td>
-                            <td><%= session.getAttribute("email") %></td>
-                            
+                            <td><%= mouvement.getDate() %></td>
+                            <td><%= mouvement.getQuantite() %></td>
+                            <td><%= mouvement.getType() %></td>
+                            <td><%= mouvement.getProduit().getNom() %></td>
                         </tr>
-                       
-                        <tr>
-                            
-                        </tr>
-                        
-                    </tbody>
-                </table>
-                
-                
-            </fieldset>
-        </div>
-    </body>
+                    <% 
+                            }
+                        }
+                    %>
+                </tbody>
+            </table>
+        </fieldset>
+    </div>
+
+   
+</body>
 </html>

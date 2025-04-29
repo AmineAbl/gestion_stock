@@ -5,27 +5,21 @@
  */
 package controllers;
 
-import entities.Categorie;
-import entities.Produit;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import services.CategorieService;
-import services.ProduitService;
 
 /**
  *
  * @author AMINE
  */
-@WebServlet(name = "Route", urlPatterns = {"/Route"})
-public class Route extends HttpServlet {
-        ProduitService ps;
-        CategorieService cs;
+@WebServlet(name = "MouvementController", urlPatterns = {"/MouvementController"})
+public class MouvementController extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -37,39 +31,19 @@ public class Route extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ps = new ProduitService();
-        cs = new CategorieService();
-        String page = request.getParameter("page");
-
-        switch (page){
-            case "profile":
-                request.getRequestDispatcher("users/profile.jsp").forward(request, response);
-                break;
-            case "produits":
-                List<Produit> produits = ps.findAll();
-                request.setAttribute("produits", produits);
-                request.getRequestDispatcher("users/produits.jsp").forward(request, response);
-                break;
-            case "categories":
-                List<Categorie> categories = cs.findAll();
-                request.setAttribute("categories", categories);
-                request.getRequestDispatcher("users/categorie.jsp").forward(request, response);
-                break;
-            case "ajouterproduit":
-                request.getRequestDispatcher("users/addProduit.jsp").forward(request, response);
-                break;
-             case "ajoutercategorie":
-                request.getRequestDispatcher("users/addCategorie.jsp").forward(request, response);
-                break;
-            case "statistiques":
-                request.getRequestDispatcher("users/statistiques.jsp").forward(request, response);
-                break;
-            case "mouvementstock":
-                request.getRequestDispatcher("users/mouvement.jsp").forward(request, response);
-                break;
-            
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet MouvementController</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet MouvementController at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

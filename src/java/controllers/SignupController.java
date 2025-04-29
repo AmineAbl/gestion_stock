@@ -51,7 +51,7 @@ public class SignupController extends HttpServlet {
                 String mdp = request.getParameter("mdp");
                 us.create(new User(nom, prenom, email, mdp));
           //      response.sendRedirect("users/users.jsp");
-                RequestDispatcher dispatcher = request.getRequestDispatcher("users/users.jsp");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("users/login.jsp");
                 dispatcher.forward(request, response);
             }else{
                 String nom = request.getParameter("nom");

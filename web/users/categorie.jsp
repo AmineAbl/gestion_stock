@@ -239,7 +239,7 @@
                 <ul>
                     <li><a href="Route?page=produits"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
                     <li><a href="Route?page=categories" class="active"><i class="fas fa-users"></i> Catégories</a></li>
-                    <li><a href="#"><i class="fas fa-book"></i> Mouvement de stock</a></li>
+                    <li><a href="Route?page=mouvementstock"><i class="fas fa-book"></i> Mouvement de stock</a></li>
                     <li><a href="Route?page=statistiques"><i class="fas fa-chart-bar"></i> Statistiques</a></li>
                     <li><a href="Route?page=profile"><i class="fas fa-cog"></i> Profile</a></li>
                     <li><a href="${pageContext.request.contextPath}/LogoutController"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>

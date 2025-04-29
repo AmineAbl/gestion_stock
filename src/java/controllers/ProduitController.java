@@ -60,11 +60,11 @@ public class ProduitController extends HttpServlet {
             System.out.println(categorie);
             if (id == null || id.isEmpty()) {
                 // Création
-                Produit p = new Produit(nom, (int) Double.parseDouble(prix), Integer.parseInt(quantite), categorie);
+                Produit p = new Produit(nom, Integer.parseInt(quantite),(int) Double.parseDouble(prix) ,categorie);
                 ps.create(p);
             } else {
                 // Modification
-                Produit p = new Produit(nom, (int) Double.parseDouble(prix), Integer.parseInt(quantite), categorie);
+                Produit p = new Produit(nom,Integer.parseInt(quantite), (int) Double.parseDouble(prix),  categorie);
                 p.setId(Integer.parseInt(id));
                 ps.update(p);
             }
