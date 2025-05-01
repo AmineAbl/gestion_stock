@@ -62,7 +62,7 @@ public class SignupController extends HttpServlet {
                 u.setId(Integer.parseInt(id));
                 us.update(u);
           //      response.sendRedirect("users/users.jsp");
-                RequestDispatcher dispatcher = request.getRequestDispatcher("users/users.jsp");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("Route?page=login");
                 dispatcher.forward(request, response);
             }
         } else if (op.equals("delete")) {

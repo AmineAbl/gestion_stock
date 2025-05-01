@@ -70,69 +70,118 @@ public class MouvementController extends HttpServlet {
     private void handleCreateOrUpdate(HttpServletRequest request, HttpServletResponse response) 
         throws ServletException, IOException, ParseException {
     
-    String id = request.getParameter("id");
-    String produitId = request.getParameter("produit");
-    String quantite = request.getParameter("quantite");
-    String typeId = request.getParameter("type");
-    String dateStr = request.getParameter("date");
-    
-    // Validate required fields
-    if (produitId == null || quantite == null || typeId == null || dateStr == null || 
-        produitId.isEmpty() || quantite.isEmpty() || typeId.isEmpty() || dateStr.isEmpty()) {
-        response.sendRedirect("Route?page=ajoutermouvement&error=missing_fields");
-        return;
-    }
-    
-    // Parse date
-    Date date = sdf.parse(dateStr);
-    
-    // Get product and category
-    Produit produit = ps.findById(Integer.parseInt(produitId));
-    Categorie categorie = cs.findById(Integer.parseInt(typeId));
-    
-    if (produit == null || categorie == null) {
-        response.sendRedirect("Route?page=ajoutermouvement&error=invalid_product_or_category");
-        return;
-    }
-    
-    int qte = Integer.parseInt(quantite);
-    
-    if (id == null || id.isEmpty()) {
-        // Create new movement
+        String id = request.getParameter("id");
+        String produitId = request.getParameter("produit");
+        String quantite = request.getParameter("quantite");
+        String type = request.getParameter("type");
+        String dateStr = request.getParameter("date");
         
-        // Update product quantity - subtract the entered quantity
-        produit.setQuantite(produit.getQuantite() - qte);
-        ps.update(produit); // Make sure to update the product in the database
-        
-        // Create movement
-        MouvementStock mouvement = new MouvementStock(categorie.getNom(), qte, date, produit);
-        mss.create(mouvement);
-        
-        // Redirect to movement list
-        response.sendRedirect("Route?page=mouvementstock&success=created");
-    } else {
-        // Update existing movement
-        
-        // Get the original movement to find the original quantity
-        MouvementStock originalMouvement = mss.findById(Integer.parseInt(id));
-        if (originalMouvement != null) {
-            // Restore the original quantity first (add back what was subtracted)
-            produit.setQuantite(produit.getQuantite() + originalMouvement.getQuantite());
-            
-            // Then subtract the new quantity
-            produit.setQuantite(produit.getQuantite() - qte);
-            ps.update(produit); // Make sure to update the product in the database
+        // Validate required fields
+        if (produitId == null || quantite == null || type == null || dateStr == null || 
+            produitId.isEmpty() || quantite.isEmpty() || type.isEmpty() || dateStr.isEmpty()) {
+            response.sendRedirect("Route?page=ajoutermouvement&error=missing_fields");
+            return;
         }
         
-        // Update the movement
-        MouvementStock mouvement = new MouvementStock(categorie.getNom(), qte, date, produit);
-        mouvement.setId(Integer.parseInt(id));
-        mss.update(mouvement);
+        // Parse date
+        Date date = sdf.parse(dateStr);
         
-        // Redirect to movement list
-        response.sendRedirect("Route?page=mouvementstock&success=updated");
+        // Get product
+        Produit produit = ps.findById(Integer.parseInt(produitId));
+        
+        if (produit == null) {
+            response.sendRedirect("Route?page=ajoutermouvement&error=invalid_product");
+            return;
+        }
+        
+        int qte = Integer.parseInt(quantite);
+        
+        // Validate quantity is positive
+        if (qte <= 0) {
+            response.sendRedirect("Route?page=ajoutermouvement&error=invalid_quantity");
+            return;
+        }
+        
+        // Check if we're creating a new movement or updating an existing one
+        if (id == null || id.isEmpty()) {
+            // Create new movement
+            
+            // Update product quantity based on movement type
+            if ("ajouter".equals(type)) {
+                // Add to stock
+                produit.setQuantite(produit.getQuantite() + qte);
+            } else if ("retirer".equals(type)) {
+                // Check if there's enough stock
+                if (produit.getQuantite() < qte) {
+                    response.sendRedirect("Route?page=ajoutermouvement&error=insufficient_stock&produit=" + 
+                                         produitId + "&quantite=" + quantite + "&type=" + type + "&date=" + dateStr);
+                    return;
+                }
+                // Remove from stock
+                produit.setQuantite(produit.getQuantite() - qte);
+            } else {
+                response.sendRedirect("Route?page=ajoutermouvement&error=invalid_movement_type");
+                return;
+            }
+            
+            // Update product in database
+            ps.update(produit);
+            
+            // Create movement record
+            MouvementStock mouvement = new MouvementStock(type, qte, date, produit);
+            mss.create(mouvement);
+            
+            // Redirect to movement list
+            response.sendRedirect("Route?page=mouvementstock&success=created");
+        } else {
+            // Update existing movement
+            
+            // Get the original movement to find the original quantity and type
+            MouvementStock originalMouvement = mss.findById(Integer.parseInt(id));
+            if (originalMouvement != null) {
+                // Reverse the effect of the original movement
+                if ("ajouter".equals(originalMouvement.getType())) {
+                    // Original was an addition, so subtract
+                    produit.setQuantite(produit.getQuantite() - originalMouvement.getQuantite());
+                } else if ("retirer".equals(originalMouvement.getType())) {
+                    // Original was a removal, so add back
+                    produit.setQuantite(produit.getQuantite() + originalMouvement.getQuantite());
+                }
+                
+                // Apply the new movement
+                if ("ajouter".equals(type)) {
+                    // Add to stock
+                    produit.setQuantite(produit.getQuantite() + qte);
+                } else if ("retirer".equals(type)) {
+                    // Check if there's enough stock
+                    if (produit.getQuantite() < qte) {
+                        response.sendRedirect("Route?page=ajoutermouvement&error=insufficient_stock&id=" + id + 
+                                             "&produit=" + produitId + "&quantite=" + quantite + 
+                                             "&type=" + type + "&date=" + dateStr);
+                        return;
+                    }
+                    // Remove from stock
+                    produit.setQuantite(produit.getQuantite() - qte);
+                } else {
+                    response.sendRedirect("Route?page=ajoutermouvement&error=invalid_movement_type");
+                    return;
+                }
+                
+                // Update product in database
+                ps.update(produit);
+                
+                // Update the movement
+                MouvementStock mouvement = new MouvementStock(type, qte, date, produit);
+                mouvement.setId(Integer.parseInt(id));
+                mss.update(mouvement);
+                
+                // Redirect to movement list
+                response.sendRedirect("Route?page=mouvementstock&success=updated");
+            } else {
+                response.sendRedirect("Route?page=mouvementstock&error=movement_not_found");
+            }
+        }
     }
-}
     
     /**
      * Handle delete operation
@@ -155,6 +204,21 @@ public class MouvementController extends HttpServlet {
             return;
         }
         
+        // Reverse the effect of the movement on the product stock
+        Produit produit = mouvement.getProduit();
+        if (produit != null) {
+            if ("ajouter".equals(mouvement.getType())) {
+                // If it was an addition, subtract the quantity
+                produit.setQuantite(produit.getQuantite() - mouvement.getQuantite());
+            } else if ("retirer".equals(mouvement.getType())) {
+                // If it was a removal, add the quantity back
+                produit.setQuantite(produit.getQuantite() + mouvement.getQuantite());
+            }
+            // Update the product
+            ps.update(produit);
+        }
+        
+        // Delete the movement
         mss.delete(mouvement);
         response.sendRedirect("Route?page=mouvementstock&success=deleted");
     }
@@ -187,32 +251,13 @@ public class MouvementController extends HttpServlet {
         }
         
         // Redirect to form with movement data
-        // Important: Send IDs instead of names for proper selection in dropdowns
         response.sendRedirect("Route?page=ajoutermouvement" + 
                 "&id=" + mouvement.getId() +
                 "&date=" + dateStr +
                 "&produit=" + mouvement.getProduit().getId() +
                 "&quantite=" + mouvement.getQuantite() +
-                "&type=" + getTypeIdFromName(mouvement.getType())
+                "&type=" + mouvement.getType()
         );
-    }
-    
-    /**
-     * Helper method to get category ID from type name
-     */
-    private int getTypeIdFromName(String typeName) {
-        if (typeName == null || typeName.isEmpty()) {
-            return 0;
-        }
-        
-        // Find category by name
-        for (Categorie categorie : cs.findAll()) {
-            if (typeName.equals(categorie.getNom())) {
-                return categorie.getId();
-            }
-        }
-        
-        return 0;
     }
 
     /**
