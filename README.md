@@ -85,7 +85,12 @@ Pour éviter ces problèmes, il est nécessaire d’automatiser et de centralise
 
 <img width="242" alt="image" src="https://github.com/user-attachments/assets/3b3b4033-e9e6-4999-bdb9-297f3d39096a" />
 
-##  8. Des prises d'écrans du site :
+##  8. Architecture du projet :
+
+<img width="960" alt="Architecture" src="https://github.com/user-attachments/assets/8acae443-f971-46f7-a160-f76325aba1d1" />
+
+
+##  9. Des prises d'écrans du site :
 <img width="943" alt="1" src="https://github.com/user-attachments/assets/c58d435d-ebe7-481f-aa76-c62775667e61" />
 
 <img width="950" alt="2" src="https://github.com/user-attachments/assets/6bf7683e-be2b-4488-b93a-dde7ee4b68b9" />
@@ -94,7 +99,7 @@ Pour éviter ces problèmes, il est nécessaire d’automatiser et de centralise
 
 <img width="938" alt="4" src="https://github.com/user-attachments/assets/265f4a61-ee74-464d-8a4b-68dbcff30a70" />
 
-##  9. La vidéo :
+##  10. La vidéo :
 
 https://github.com/user-attachments/assets/47336d24-3605-4075-b8a9-e848113173aa
 
