@@ -85,6 +85,21 @@ Pour éviter ces problèmes, il est nécessaire d’automatiser et de centralise
 
 <img width="242" alt="image" src="https://github.com/user-attachments/assets/3b3b4033-e9e6-4999-bdb9-297f3d39096a" />
 
+##  8. Des prises d'écrans du site :
+<img width="943" alt="1" src="https://github.com/user-attachments/assets/c58d435d-ebe7-481f-aa76-c62775667e61" />
+
+<img width="950" alt="2" src="https://github.com/user-attachments/assets/6bf7683e-be2b-4488-b93a-dde7ee4b68b9" />
+
+<img width="935" alt="3" src="https://github.com/user-attachments/assets/1a48a644-bcf4-483a-a19f-e27b2bc19615" />
+
+<img width="938" alt="4" src="https://github.com/user-attachments/assets/265f4a61-ee74-464d-8a4b-68dbcff30a70" />
+
+##  9. La vidéo :
+
+https://github.com/user-attachments/assets/47336d24-3605-4075-b8a9-e848113173aa
+
+
+
 
 
 
