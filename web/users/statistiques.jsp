@@ -14,6 +14,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
         <title>Statistiques</title>
+        <%
+             // Empêcher la mise en cache
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
+    response.setHeader("Pragma", "no-cache"); // HTTP 1.0
+    response.setDateHeader("Expires", 0); // Proxies
+    
+    if (session.getAttribute("id") == null) {
+        response.sendRedirect("users/login.jsp");
+        return;
+    }
+%>
         <style>
             /* Styles généraux */
             * {

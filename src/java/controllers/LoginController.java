@@ -63,7 +63,7 @@ public class LoginController extends HttpServlet {
                 session.setAttribute("email", u.getEmail());
                 
              //   response.sendRedirect("users/produits.jsp");
-                RequestDispatcher dispatcher = request.getRequestDispatcher("users/produits.jsp");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("Route?page=produits");
                 dispatcher.forward(request, response);
                 return;
             }

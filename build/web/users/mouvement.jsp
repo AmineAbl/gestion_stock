@@ -1,3 +1,5 @@
+<%@page import="services.CategorieService"%>
+<%@page import="entities.Categorie"%>
 <%@ page import="services.MouvementStockService" %>
 <%@ page import="services.ProduitService" %>
 <%@ page import="java.util.List" %>
@@ -6,25 +8,37 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mouvement de Stock</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-   <style>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Mouvement de Stock</title>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+        <%
+
+            // Empêcher la mise en cache
+            response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
+            response.setHeader("Pragma", "no-cache"); // HTTP 1.0
+            response.setDateHeader("Expires", 0); // Proxies
+
+            if (session.getAttribute("id") == null) {
+                response.sendRedirect("users/login.jsp");
+                return;
+            }
+        %>
+        <style>
             * {
                 margin: 0;
                 padding: 0;
                 box-sizing: border-box;
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             }
-            
+
             body {
                 background-color: #f5f5f5;
                 display: flex;
                 min-height: 100vh;
             }
-            
+
             /* Sidebar styles */
             .sidebar {
                 width: 250px;
@@ -35,26 +49,26 @@
                 padding: 20px 0;
                 transition: all 0.3s;
             }
-            
+
             .sidebar-header {
                 padding: 0 20px 20px;
                 border-bottom: 1px solid rgba(255, 255, 255, 0.1);
                 text-align: center;
             }
-            
+
             .sidebar-header h3 {
                 color: white;
                 margin-top: 10px;
             }
-            
+
             .sidebar-menu {
                 padding: 20px 0;
             }
-            
+
             .sidebar-menu ul {
                 list-style: none;
             }
-            
+
             .sidebar-menu li a {
                 display: block;
                 padding: 12px 20px;
@@ -62,23 +76,23 @@
                 text-decoration: none;
                 transition: all 0.3s;
             }
-            
+
             .sidebar-menu li a:hover {
                 background-color: #34495e;
                 color: white;
             }
-            
+
             .sidebar-menu li a i {
                 margin-right: 10px;
             }
-            
+
             /* Main content area */
             .main-content {
                 margin-left: 250px;
                 padding: 20px;
                 width: calc(100% - 250px);
             }
-            
+
             fieldset {
                 border: none;
                 background-color: white;
@@ -88,7 +102,7 @@
                 width: 100%;
                 max-width: 900px;
             }
-            
+
             legend {
                 font-size: 24px;
                 font-weight: 600;
@@ -97,7 +111,7 @@
                 margin-bottom: 20px;
                 position: relative;
             }
-            
+
             legend::after {
                 content: '';
                 display: block;
@@ -106,20 +120,20 @@
                 background-color: #4a6fdc;
                 margin-top: 8px;
             }
-            
+
             table {
                 width: 100%;
                 border-collapse: collapse;
                 margin-top: 15px;
                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
             }
-            
+
             th, td {
                 padding: 15px;
                 text-align: left;
                 border-bottom: 1px solid #eee;
             }
-            
+
             th {
                 background-color: #f8f9fa;
                 font-weight: 600;
@@ -127,15 +141,15 @@
                 position: sticky;
                 top: 0;
             }
-            
+
             tbody tr:hover {
                 background-color: #f9f9f9;
             }
-            
+
             tbody tr:last-child td {
                 border-bottom: none;
             }
-            
+
             a {
                 text-decoration: none;
                 padding: 8px 12px;
@@ -145,37 +159,37 @@
                 transition: all 0.3s ease;
                 display: inline-block;
             }
-            
+
             a[href*="delete"] {
                 background-color: #ff5252;
                 color: white;
             }
-            
+
             a[href*="delete"]:hover {
                 background-color: #e04646;
             }
-            
+
             a[href*="update"] {
                 background-color: #4a6fdc;
                 color: white;
             }
-            
+
             a[href*="update"]:hover {
                 background-color: #3a5fc8;
             }
-            
+
             .empty-message {
                 text-align: center;
                 padding: 20px;
                 color: #666;
                 font-style: italic;
             }
-            
+
             .actions-container {
                 display: flex;
                 gap: 8px;
             }
-            
+
             .add-button {
                 display: inline-block;
                 background-color: #4CAF50;
@@ -186,47 +200,47 @@
                 font-weight: 500;
                 transition: background-color 0.3s;
             }
-            
+
             .add-button:hover {
                 background-color: #3e9142;
             }
-            
+
             @media (max-width: 768px) {
                 .sidebar {
                     width: 0;
                     overflow: hidden;
                 }
-                
+
                 .main-content {
                     margin-left: 0;
                     width: 100%;
                 }
-                
+
                 table {
                     display: block;
                     overflow-x: auto;
                     white-space: nowrap;
                 }
-                
+
                 fieldset {
                     padding: 20px;
                 }
-                
+
                 th, td {
                     padding: 10px;
                 }
-                
+
                 a {
                     padding: 6px 10px;
                     font-size: 13px;
                 }
             }
         </style>
-         <!-- Font Awesome for icons -->
+        <!-- Font Awesome for icons -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-</head>
-<body>
-   <!-- Sidebar -->
+    </head>
+    <body>
+        <!-- Sidebar -->
         <div class="sidebar">
             <div class="sidebar-header">
                 <h3>Menu Admin</h3>
@@ -242,90 +256,55 @@
                 </ul>
             </div>
         </div>
-                
-                 <!-- Main Content -->
-    <div class="main-content">
-        <fieldset>
-            <legend>Mouvement de Stock</legend>
 
-            <!-- Formulaire d'ajout de mouvement de stock -->
-            <form action="${pageContext.request.contextPath}/MouvementController" method="POST">
-                <div class="form-group">
-                    <label for="produit">Produit</label>
-                    <select id="produit" name="produit" required>
-                        <%  
-                            // Récupération de la liste des produits
-                            ProduitService ps = new ProduitService();
-                            List<Produit> produits = (List<Produit>) ps.findAll();
-                            if (produits != null && !produits.isEmpty()) {
-                                for (Produit p : produits) {
+        <!-- Main Content -->
+        <div class="main-content">
+            <fieldset>
+                <legend>Mouvement de Stock</legend>
+           <!-- Table des mouvements de stock -->
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Quantité</th>
+                            <th>Type</th>
+                            <th>Produit</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%
+                            MouvementStockService mss = new MouvementStockService();
+                            List<MouvementStock> mouvements = mss.findAll();
+                            if (mouvements.isEmpty()) {
                         %>
-                            <option value="<%= p.getId() %>"><%= p.getNom() %></option>
-                        <% 
-                                }
-                            } else {
-                        %>
-                            <option>Aucun produit disponible</option>
-                        <% 
-                            }
-                        %>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="quantite">Quantité</label>
-                    <input type="number" id="quantite" name="quantite" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="type">Type</label>
-                    <select id="type" name="type" required>
-                        <option value="ajout">Ajout</option>
-                        <option value="retrait">Retrait</option>
-                    </select>
-                </div>
-
-                <button type="submit">Ajouter Mouvement</button>
-            </form>
-
-            <!-- Table des mouvements de stock -->
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Quantité</th>
-                        <th>Type</th>
-                        <th>Produit</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <%  
-                        MouvementStockService mss = new MouvementStockService();
-                        List<MouvementStock> mouvements = mss.findAll();
-                        if (mouvements.isEmpty()) {
-                    %>
                         <tr>
                             <td colspan="4" class="empty-message">Aucun mouvement de stock disponible.</td>
                         </tr>
-                    <% 
+                        <%
                         } else {
                             for (MouvementStock mouvement : mouvements) {
-                    %>
+                        %>
                         <tr>
-                            <td><%= mouvement.getDate() %></td>
-                            <td><%= mouvement.getQuantite() %></td>
-                            <td><%= mouvement.getType() %></td>
-                            <td><%= mouvement.getProduit().getNom() %></td>
+                            <td><%= mouvement.getDate()%></td>
+                            <td><%= mouvement.getQuantite()%></td>
+                            <td><%= mouvement.getType()%></td>
+                            <td><%= mouvement.getProduit().getNom()%></td>
+                            <td class="actions-container">
+                                <a href="${pageContext.request.contextPath}/MouvementController?id=<%= mouvement.getId() %>&op=delete">Supprimer</a>
+                                <a href="${pageContext.request.contextPath}/MouvementController?id=<%= mouvement.getId() %>&op=update">Modifier</a>
+                            </td>
                         </tr>
-                    <% 
+                        <%
+                                }
                             }
-                        }
-                    %>
-                </tbody>
-            </table>
-        </fieldset>
-    </div>
+                        %>
+                    </tbody>
+                </table>
+                    <a href="Route?page=ajoutermouvement" class="add-button">Ajouter un mouvement</a>
+            </fieldset>
+        </div>
 
-   
-</body>
+
+    </body>
 </html>

@@ -15,6 +15,18 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Liste des Produits</title>
+        <%
+             // Empêcher la mise en cache
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
+    response.setHeader("Pragma", "no-cache"); // HTTP 1.0
+    response.setDateHeader("Expires", 0); // Proxies
+    
+    
+    if (session.getAttribute("id") == null) {
+        response.sendRedirect("users/login.jsp");
+        return;
+    }
+%>
         <style>
             * {
                 margin: 0;
@@ -226,6 +238,7 @@
                 }
             }
         </style>
+       
         <!-- Font Awesome for icons -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     </head>

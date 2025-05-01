@@ -37,7 +37,9 @@ public class LogoutController extends HttpServlet {
         
         HttpSession session = request.getSession(); // Récupère la session s'il y en a une
         session.invalidate(); // Détruit la session
-        response.sendRedirect("users/login.jsp"); // Redirection vers la page de login
+        response.sendRedirect("users/login.jsp");
+     //  RequestDispatcher dispatcher = request.getRequestDispatcher("Route?page=login");
+     //  dispatcher.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -61,11 +61,17 @@ public class Route extends HttpServlet {
              case "ajoutercategorie":
                 request.getRequestDispatcher("users/addCategorie.jsp").forward(request, response);
                 break;
+             case "ajoutermouvement":
+                request.getRequestDispatcher("users/addMouvement.jsp").forward(request, response);
+                break;
             case "statistiques":
                 request.getRequestDispatcher("users/statistiques.jsp").forward(request, response);
                 break;
             case "mouvementstock":
                 request.getRequestDispatcher("users/mouvement.jsp").forward(request, response);
+                break;
+            case "login":
+                request.getRequestDispatcher("users/login.jsp").forward(request, response);
                 break;
             
         }
