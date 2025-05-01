@@ -365,24 +365,24 @@
     </head>
     <body>
         <%
-            // Get parameters for modification
+            
             String id = request.getParameter("id");
             String produitId = request.getParameter("produit");
             String quantite = request.getParameter("quantite");
             String typeId = request.getParameter("type");
             String date = request.getParameter("date");
             
-            // Check for error parameter
+            
             String error = request.getParameter("error");
             String success = request.getParameter("success");
         %>
         
-        <!-- Mobile menu toggle -->
+       
         <button class="menu-toggle" id="menuToggle">
             <i class="fas fa-bars"></i>
         </button>
 
-        <!-- Sidebar -->
+        
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <h3>Gestion de Stock</h3>
@@ -423,7 +423,7 @@
                 </div>
                 <% } %>
                 
-                <!-- Formulaire d'ajout de mouvement de stock -->
+                
                 <form action="${pageContext.request.contextPath}/MouvementController" method="POST" id="mouvementForm">
                     <% if (id != null && !id.isEmpty()) { %>
                         <input type="hidden" name="id" value="<%= id %>" />
@@ -484,10 +484,10 @@
             </div>
         </div>
 
-        <!-- JavaScript for mobile menu toggle and form validation -->
+        
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-                // Mobile menu toggle
+               
                 const menuToggle = document.getElementById('menuToggle');
                 const sidebar = document.getElementById('sidebar');
                 
@@ -496,7 +496,7 @@
                         sidebar.classList.toggle('active');
                     });
                     
-                    // Close sidebar when clicking outside on mobile
+                    
                     document.addEventListener('click', function(event) {
                         const isClickInsideMenu = sidebar.contains(event.target);
                         const isClickOnToggle = menuToggle.contains(event.target);
@@ -507,7 +507,7 @@
                     });
                 }
                 
-                // Form validation
+               
                 const form = document.getElementById('mouvementForm');
                 const quantiteInput = document.getElementById('quantite');
                 
@@ -537,7 +537,7 @@
                     });
                 }
                 
-                // Set default date to today if empty
+                
                 const dateInput = document.getElementById('date');
                 if (dateInput && dateInput.value === '') {
                     const today = new Date();
